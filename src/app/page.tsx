@@ -75,7 +75,7 @@ export default function Game() {
 
     const mutation = api.post.putScore.useMutation({
         onSuccess: (r) => {
-            if(r[0] === 1) setGameTime(-1)
+            // if(r[0] === 1) setGameTime(-1)
             setPostResult(r[1])
         }
     })

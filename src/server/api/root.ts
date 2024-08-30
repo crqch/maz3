@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createCallerFactory, createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import profanity from "./profanity"
+import profanity from "~/server/api/profanity"
 
 let leaderboard: {
   name: string,
