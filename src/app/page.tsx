@@ -206,9 +206,9 @@ export default function Game() {
 
     return (
         <>
-            {gameTime !== -1 && <p className="fixed text-2xl font-bold flex flex-row items-center justify-center bg-black text-white" style={{ zIndex: 20, left: TILE_SIZE, top: TILE_SIZE, width: TILE_SIZE * 2, height: TILE_SIZE }}>{gameTime.toFixed(2)}</p>}
-            <div className="md:hidden min-h-screen flex flex-col items-center justify-center">
-                <h1>The maze is not for mobile</h1>
+            {gameTime !== -1 && <p className="fixed hidden md:flex text-2xl font-bold flex-row items-center justify-center bg-black text-white" style={{ zIndex: 20, left: TILE_SIZE, top: TILE_SIZE, width: TILE_SIZE * 2, height: TILE_SIZE }}>{gameTime.toFixed(2)}</p>}
+            <div className="md:hidden min-h-screen flex flex-col items-center justify-center text-center px-4">
+                <h1>Maz3 is not compatible with mobile devices</h1>
                 <p className="mb-8">Because of technical difficulties and technology used in making this game possible, it is impossible to prepare the game for mobile devices.</p>
                 <a href="mailto:?subject=I want to try out maze&body=Found this game, it's a reminder to try it out when I'm on PC." draggable={false}>
                     <div className="py-2 px-4 bg-black text-white hover:bg-black/90 active:bg-blue-700 transition-colors">
