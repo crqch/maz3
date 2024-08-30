@@ -28,7 +28,6 @@ export const appRouter = createTRPCRouter({
       }))
       .mutation(({ input, ctx }): [number, string] => {
         const ip = (ctx.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0]
-        if(new Date().getTime() > 2) return [1, ip ?? "none"]
         if (input.time < 7) return [1, "Couldn't upload the score because it's too fast!"]
         if (input.name.length < 3 && input.name !== "") return [0, "The name is too short"]
         if (ip !== undefined && blacklist[ip] !== undefined) {
