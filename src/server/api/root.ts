@@ -50,6 +50,7 @@ export const appRouter = createTRPCRouter({
         
         leaderboard = leaderboard.sort((a, b) => a.time - b.time)
         const highestScore = leaderboard.filter(s => s.ip === ip)[0]
+        if(highestScore === undefined) return [0, "An error occured"];
         leaderboard = leaderboard.filter(s => s.ip !== ip)
         leaderboard.push(highestScore)
         if (ip !== undefined) lastRun[ip] = new Date().getTime()
