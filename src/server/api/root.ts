@@ -18,14 +18,13 @@ export const appRouter = createTRPCRouter({
     .mutation(({ input }) => {
       leaderboard.push(input)
       leaderboard = leaderboard.sort((a, b) => a.time - b.time)
-      console.log(leaderboard)
       return "OK";
     })
   }),
   get: createTRPCRouter({
     getLeaderboard: publicProcedure
     .query(() => {
-      return leaderboard;
+      return leaderboard.slice(0, 10);
     })
   })
 });
