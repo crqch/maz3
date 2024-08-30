@@ -61,7 +61,7 @@ export const appRouter = createTRPCRouter({
       .input(z.number())
       .query(({ input }) => {
         return {
-          results: leaderboard.map(r => { name: r.name, time: r.time}).slice(input * 15, input * 15 + 15),
+          results: leaderboard.map(r => ({ name: r.name, time: r.time})).slice(input * 15, input * 15 + 15),
           maxPage: Math.ceil(leaderboard.length / 15)
         };
       })
