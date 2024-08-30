@@ -7,7 +7,7 @@ let leaderboard: {
   time: number
 }[] = []
 
-let blacklist: {
+const blacklist: {
   [key: string]: number
 } = {}
 
