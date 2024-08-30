@@ -226,7 +226,6 @@ export default function Game() {
                         <a href="https://ko-fi.com/crqch" target="blank">
                             Support me
                         </a>
-                        <a href="https://freedns.afraid.org/" target="blank">FreeDNS</a>
                     </div>
                 </div>
                 <><div className="min-h-[80vh] flex gap-y-4 justify-center items-center flex-col">
