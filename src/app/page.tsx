@@ -71,10 +71,12 @@ export default function Game() {
     const [lastMove, setLastMove] = useState("");
     const timerRef = useRef<NodeJS.Timer>(null);
     const [nickname, setNickname] = useState<string>("");
+    const [postResult, setPostResult] = useState<string>("");
 
     const mutation = api.post.putScore.useMutation({
-        onSuccess: () => {
-            setGameTime(-1)
+        onSuccess: (r) => {
+            if(r[0] === 1) setGameTime(-1)
+            setPostResult(r[1])
         }
     })
 
@@ -90,6 +92,7 @@ export default function Game() {
     const startGame = () => {
         setGameStarted(true);
         setGameTime(0);
+        setPostResult("")
         //@ts-expect-error because it is necessary
         timerRef.current = setInterval(() => {
             setGameTime(prevTime => prevTime + 0.01);
@@ -129,6 +132,9 @@ export default function Game() {
             let newX = playerPosition.x;
             let newY = playerPosition.y;
             let key = e.key
+            
+            // Do not react if the target element is input
+            if(e.target !== undefined && (e.target as HTMLElement).tagName === "INPUT") return
 
             switch(key.toLowerCase()){
                 case "a":
@@ -167,6 +173,8 @@ export default function Game() {
             preventDefault(e)
             if (isValidMove(newX, newY)) {
                 if (newY === 0 && !gameStarted) {
+                    setFinished(false);
+                    setPostResult("")
                     startGame()
                 } else if (newY < 0 && gameStarted) {
                     stopGame()
@@ -262,14 +270,15 @@ export default function Game() {
                     <div className="min-h-[80vh] flex flex-col">
                         {finished && <div style={{ marginTop: TILE_SIZE }} className="flex flex-col">
                             <h1>Congrats!</h1>
-                            {gameTime !== -1 ? <>
+                            {postResult !== "" && <div className="flex mb-8 flex-row justify-between items-center p-2 bg-black text-white">
+                                <p>{postResult}</p>
+                            </div>}
+                            {gameTime !== -1 && <>
                                 <p className="text-gray-400 mb-12">Your time: {gameTime.toFixed(2)}</p>
                                 <p>Input your name to appear on the leaderboard!</p>
                                 <input value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder="Name or nickname" className="py-2 px-4 mt-4 bg-black/10 placeholder:text-black text-black hover:bg-black/10 active:bg-black/20 focus:bg-black/20 focus:outline-none transition-colors" />
                                 <button onClick={submitScore} className="py-2 px-4 mb-8 bg-black/10 transition-colors hover:bg-black/20 active:bg-blue-700 active:text-white">Submit score</button>
-                            </> : <div className="flex mb-8 flex-row justify-between items-center p-2 bg-black text-white">
-                                <p>Successfully reported the score</p>
-                            </div>}
+                            </> }
                             <Leaderboard />
                         </div>}
                     </div>
