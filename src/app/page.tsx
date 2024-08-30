@@ -71,10 +71,12 @@ export default function Game() {
     const [lastMove, setLastMove] = useState("");
     const timerRef = useRef<NodeJS.Timer>(null);
     const [nickname, setNickname] = useState<string>("");
+    const [postResult, setPostResult] = useState<string>("");
 
     const mutation = api.post.putScore.useMutation({
-        onSuccess: () => {
-            setGameTime(-1)
+        onSuccess: (r) => {
+            if(r[0] === 1) setGameTime(-1)
+            setPostResult(r[1])
         }
     })
 
@@ -268,7 +270,7 @@ export default function Game() {
                                 <input value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder="Name or nickname" className="py-2 px-4 mt-4 bg-black/10 placeholder:text-black text-black hover:bg-black/10 active:bg-black/20 focus:bg-black/20 focus:outline-none transition-colors" />
                                 <button onClick={submitScore} className="py-2 px-4 mb-8 bg-black/10 transition-colors hover:bg-black/20 active:bg-blue-700 active:text-white">Submit score</button>
                             </> : <div className="flex mb-8 flex-row justify-between items-center p-2 bg-black text-white">
-                                <p>Successfully reported the score</p>
+                                <p>{postResult}</p>
                             </div>}
                             <Leaderboard />
                         </div>}
