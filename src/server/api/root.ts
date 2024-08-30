@@ -4,7 +4,8 @@ import profanity from "~/server/api/profanity"
 
 let leaderboard: {
   name: string,
-  time: number
+  time: number,
+  ip: string
 }[] = []
 
 const lastRun: Record<string, number> = {}
@@ -28,25 +29,29 @@ export const appRouter = createTRPCRouter({
       }))
       .mutation(({ input, ctx }): [number, string] => {
         const ip = (ctx.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0]
+        if(ip === undefined) return [0, "Couldn't get your IP Address"]
+
         if (input.time < 7) return [1, "Couldn't upload the score because it's too fast!"]
         if (input.name.length < 3 && input.name !== "") return [0, "The name is too short"]
-        if (ip !== undefined && blacklist[ip] !== undefined) {
+        if (blacklist[ip] !== undefined) {
           if (blacklist[ip] > 3) return [1, "You have been blacklisted"]
         }
-        if (ip !== undefined && lastRun[ip] !== undefined) {
+        if (lastRun[ip] !== undefined) {
           if (new Date().getTime() - input.time * 1000 + lastRun[ip] > 0) {
             addBlacklist(ip)
             return [1, "Timestamps mismatch"]
           }
         }
         if (profanity.includes(input.name.toLowerCase())) {
-          if (ip !== undefined) {
             addBlacklist(ip)
-          }
           return [1, "This name contains profanity"]
         }
-        leaderboard.push(input)
+        leaderboard.push({...input, ip})
+        
         leaderboard = leaderboard.sort((a, b) => a.time - b.time)
+        const highestScore = leaderboard.filter(s => s.ip === ip)[0]
+        leaderboard = leaderboard.filter(s => s.ip !== ip)
+        leaderboard.push(highestScore)
         if (ip !== undefined) lastRun[ip] = new Date().getTime()
         return [1, "Successfully reported the score"];
       })
@@ -56,7 +61,7 @@ export const appRouter = createTRPCRouter({
       .input(z.number())
       .query(({ input }) => {
         return {
-          results: leaderboard.slice(input * 15, input * 15 + 15),
+          results: leaderboard.map(r => { name: r.name, time: r.time}).slice(input * 15, input * 15 + 15),
           maxPage: Math.ceil(leaderboard.length / 15)
         };
       })
