@@ -218,7 +218,7 @@ export default function Game() {
             <div className="md:hidden min-h-screen flex flex-col items-center justify-center text-center px-4">
                 <h1>Maz3 is not compatible with mobile devices</h1>
                 <p className="mb-8">Because of technical difficulties and technology used in making this game possible, it is impossible to prepare the game for mobile devices.</p>
-                <a href="mailto:?subject=I want to try out maze&body=Found this game, it's a reminder to try it out when I'm on PC." draggable={false}>
+                <a href="mailto:?subject=I want to try out maze&body=Found this game, it's a reminder to try it out when I'm on PC. https://maz3.vercel.app/" draggable={false}>
                     <div className="py-2 px-4 bg-black text-white hover:bg-black/90 active:bg-blue-700 transition-colors">
                         <p>E-mail yourself the link</p>
                     </div>
