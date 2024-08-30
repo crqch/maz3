@@ -220,7 +220,7 @@ export default function Game() {
                 <div className="flex flex-row absolute top-0 left-0 w-full px-48 items-center justify-between py-4 text-black/50">
                     <p>Yes, this is a footer but on top.<br />Is it header or footer?</p>
                     <div className="flex flex-row gap-x-4">
-                        <a href="https://github.com/crqch/maze" target="blank">
+                        <a href="https://github.com/crqch/maz3" target="blank">
                             Source code
                         </a>
                         <a href="https://ko-fi.com/crqch" target="blank">
