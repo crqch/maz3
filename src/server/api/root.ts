@@ -7,13 +7,9 @@ let leaderboard: {
   time: number
 }[] = []
 
-const lastRun: {
-  [key: string]: number
-} = {}
+const lastRun: Record<string, number> = {}
 
-const blacklist: {
-  [key: string]: number
-} = {}
+const blacklist: Record<string, number> = {}
 
 const addBlacklist = (ip: string) => {
   if (blacklist[ip] !== undefined) {
