@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Day {
+  id          String  @unique @db.Text
+  maze        Bytes   @db.ByteA
+  leaderboard Score[]
+}
+
+model User {
+  ip            String   @unique @db.Text
+  id            String   @unique @default(uuid()) @db.Uuid
+  name          String   @db.Text
+  blockWarnings Int      @db.Integer
+  wordPassword  String   @db.Text
+  lastSolve     DateTime @default(now()) @db.Timestamp()
+  scores        Score[]
+}
+
+model Score {
+  dayId  String @db.Text
+  id     BigInt @unique @default(autoincrement())
+  time   Float  @db.DoublePrecision
+  day    Day    @relation(references: [id], fields: [dayId], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.Uuid
+}
