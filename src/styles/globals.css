@@ -3,6 +3,16 @@
 @tailwind utilities;
 
 h1 {
-    font-size: 3rem;
+    font-size: 3em;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 1em;
     font-weight: 700;
 }

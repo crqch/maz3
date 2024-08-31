@@ -1,27 +1,30 @@
-import "~/styles/globals.css";
+import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { SessionProvider } from "@/lib/session";
+import { api } from "@/lib/api";
+import Navbar from "./_components/navbar";
+import LoadingScreen from "./_components/loading";
 
-import { TRPCReactProvider } from "~/trpc/react";
-import { Analytics } from "@vercel/analytics/next";
 export const metadata: Metadata = {
-  title: "maze",
-  description: "Fun little game to solve the maze",
+  title: "maz3",
+  description: "Maz3 is a DOM Element based game for completing a maze every day!",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+const RootLayout: React.FC<React.PropsWithChildren> = async ({ children }) => {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
-        <Analytics />
-        <TRPCReactProvider>
+      <SessionProvider>
+        <body className="overflow-x-hidden">
+          <Navbar />
+          <LoadingScreen />
           {children}
-        </TRPCReactProvider>
-      </body>
+        </body>
+      </SessionProvider>
     </html>
   );
 }
+
+export default RootLayout;
