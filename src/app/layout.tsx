@@ -6,6 +6,7 @@ import { SessionProvider } from "@/lib/session";
 import { api } from "@/lib/api";
 import Navbar from "./_components/navbar";
 import LoadingScreen from "./_components/loading";
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
   title: "maz3",
@@ -18,6 +19,7 @@ const RootLayout: React.FC<React.PropsWithChildren> = async ({ children }) => {
     <html lang="en" className={`${GeistSans.variable}`}>
       <SessionProvider>
         <body className="overflow-x-hidden">
+          <Analytics />
           <Navbar />
           <LoadingScreen />
           {children}
