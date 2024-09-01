@@ -20,6 +20,7 @@ export default function Game() {
     const timerRef = useRef<NodeJS.Timer>(null);
     const [postResult, setPostResult] = useState<string>("");
     const { user } = useSession();
+    const [submitting, setSubmitting] = useState<boolean>(false);
     const [maze, setMaze] = useState<number[]>([]);
 
     async function encryptData(userId: string, time: number): Promise<{ encryptedData: string, iv: string, salt: string }> {
@@ -57,6 +58,7 @@ export default function Game() {
             key,
             timeBuffer
         )
+        
 
         // @ts-expect-error it is necessary
         const encryptedData = btoa(String.fromCharCode.apply(null, new Uint8Array(encryptedBuffer)))
@@ -79,13 +81,15 @@ export default function Game() {
     }, [])
 
     const submitScore = async () => {
-        if (gameTime !== -1) {
+        if (gameTime !== -1 && !submitting) {
+            setSubmitting(true)
             // @ts-expect-error it is necessary
             const data = await encryptData(user.id, gameTime.toFixed(2))
             api.maze.score.post(data).then(res => {
                 if (res.data) {
                     if (res.data[0] === 1) setGameTime(-1);
                     setPostResult(res.data[1])
+                    setSubmitting(false)
                 }
             })
         }
