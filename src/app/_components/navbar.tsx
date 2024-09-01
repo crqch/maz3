@@ -21,8 +21,8 @@ export default function Navbar() {
     const [timeLeft, setTimeLeft] = useState<string>("");
 
     const updateTime = () => {
-        const time = new Date(tomorrow.getTime() - new Date().getTime()).toLocaleTimeString("en-US", {timeZone: "Europe/Berlin"});
-        setTimeLeft(time.split(" ")[0] || time);
+        const time = new Date(tomorrow.getTime() - new Date().getTime()).toLocaleTimeString("pl-PL", {timeZone: "Europe/Berlin"});
+        setTimeLeft(time);
     }
 
     useEffect(() => {
