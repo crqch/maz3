@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
-tomorrow.setHours(0,0,0,0);
+tomorrow.setHours(0, 0, 0, 0);
 
 export default function Navbar() {
     const { user, refetch } = useSession();
@@ -21,7 +21,7 @@ export default function Navbar() {
     const [timeLeft, setTimeLeft] = useState<string>("");
 
     const updateTime = () => {
-        const time = new Date(tomorrow.getTime() - new Date().getTime()).toLocaleTimeString("pl-PL", {timeZone: "Europe/Berlin"});
+        const time = new Date(tomorrow.getTime() - new Date().getTime()).toLocaleTimeString("pl-PL", { timeZone: "Europe/Berlin" });
         setTimeLeft(time);
     }
 
@@ -34,14 +34,15 @@ export default function Navbar() {
     const submitNewNick = () => {
         api.maze.name.post(newNick).then(res => {
             refetch()
-            if(res.error) return setSuccess(res.error.message)
+            if (res.error) return setSuccess(res.error.message)
             setSuccess(res.data)
         })
     }
 
     return <>
-        <div className="flex flex-row absolute top-0 left-0 w-full px-[10%] items-center justify-between py-4 text-black/50">
-            <p className="text-black font-bold text-2xl">maz3<br/><span className="font-mono text-black/50 text-sm font-light">New maz3 in {timeLeft}</span></p>
+        <p className="pt-4 text-center w-full text-black/60">Website made by <a className="underline text-black" href="https://crqch.vercel.app/">crqch</a></p>
+        <div className="flex flex-row top-0 left-0 w-full px-[10%] items-center justify-between py-4 text-black/50">
+            <p className="text-black font-bold text-2xl">maz3<br /><span className="font-mono text-black/50 text-sm font-light">New maz3 in {timeLeft}</span></p>
             <div className="flex flex-row gap-x-4 items-center">
                 <a href="https://github.com/crqch/maz3" className="hidden md:block" target="blank">
                     Source code
@@ -59,6 +60,14 @@ export default function Navbar() {
                     </div>}
                 </div>
             </div>
+        </div>
+        <div className="flex flex-row items-center md:hidden justify-evenly w-full py-4">
+            <a href="https://github.com/crqch/maz3" target="blank">
+                Source code
+            </a>
+            <a href="https://ko-fi.com/crqch" target="blank">
+                Support me
+            </a>
         </div>
         <motion.div initial={{ opacity: 0 }} onClick={() => setIsSidebarOpened(false)} className={`h-[100vh] w-[100vw] z-40 absolute top-0 left-0 ${isSidebarOpened ? "pointer-events-auto" : "pointer-events-none"} bg-black/40`} animate={isSidebarOpened ? { opacity: 1 } : { opacity: 0 }}>
 
