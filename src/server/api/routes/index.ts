@@ -28,10 +28,10 @@ function localizeNumber(n: number) {
 
 const getDayId = () => {
     const date = new Date();
-    return [date.getDay(), date.getMonth(), date.getFullYear()].join(".")
+    return [date.getDate(), date.getMonth() + 1, date.getFullYear()].join(".")
 }
 
-function generateMaze(rows: number, cols: number, seed: number): Buffer {
+export function generateMaze(rows: number, cols: number, seed: number): Buffer {
     let randomSeed = seed;
     const random = () => {
         randomSeed = (randomSeed * 1103515245 + 12345) & 0x7fffffff;
@@ -93,14 +93,13 @@ function generateMaze(rows: number, cols: number, seed: number): Buffer {
         buffer[i] = maze[i];
     }
 
-    console.log(buffer)
     return buffer;
 }
 
 const createMaze = async (database: typeof db) => {
     const data = {
         id: getDayId(),
-        maze: generateMaze(50, 12, new Date().getDate())
+        maze: generateMaze(50, 12, new Date().getTime())
     }
 
     await database.day.create({
